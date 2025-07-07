@@ -17,12 +17,17 @@ const httpServer = http.createServer(app);
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  cache: 'bounded',
+
   context: ({ req }) => {
     const token = req.headers.authorization || "";
     const user = verifyToken(token.replace("Bearer ", ""));
     return { user };
   }
 });
+
+
+
 
 await server.start();
 server.applyMiddleware({ app });
